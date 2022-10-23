@@ -1,9 +1,10 @@
-source("bloodtype-pgm_ABO.R")
-source("bloodtype-pgm_Aa.R")
+source("pgm/bloodtype-pgm_ABO.R")
+source("pgm/bloodtype-pgm_Aa.R")
 
 # initial population  c("GT_AA", "GT_AB", "GT_AO", "GT_BB", "GT_BO", "GT_OO")
 percent <-            c(   0.15,    0.25,    0.10,    0.15,    0.10,    0.25)
-sum(percent)
+percent <- percent/sum(percent)
+percent
 
 df <- data.frame(matrix(percent, nrow=1)); colnames(df) <- list_gt
 func_gt2pt(df)
@@ -70,9 +71,9 @@ gridExtra::grid.arrange(g_gt_fill, g_gt_plot, g_pt_fill, g_pt_plot, nrow = 2)
 
 
 
-func = function(x,z) func_iter_Aa_aa(x, 1-x-z, y)
+func = function(x,z) func_iter_Aa_aa(x, 1-x-z, z)
 x = z = seq(0.01, 1, 0.01)
-y = outer(x, y, func)
+y = outer(x, z, func)
 persp(x, z, y, theta=135, phi=20, expand=0.5, ticktype="detailed") 
 contour(x, z, y)
 
